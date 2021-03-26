@@ -32,6 +32,7 @@ dropArea.addEventListener('dragover', function(e) {
 
 dropArea.addEventListener('drop', function(evt) {
   // Prevent default to allow for drop
+  console.log('Dropped');
   evt.preventDefault();
   fileInput.files = evt.dataTransfer.files;
   hideDropArea();
