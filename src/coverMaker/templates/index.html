@@ -9,6 +9,13 @@
 </head>
 
 <body>
-  
+  <div class="flex flex-row items-center justify-center full-screen">
+    <div id="drop-area" class="outline-black bg-opacity-10 -z-10">
+    </div>
+    <form id="image" action="{{ url_for('loadImage') }}" method="POST" class="form">
+      <input type="file">
+    </form>
+  </div>
+  <script src="/static/js/fileDropArea.js"></script>
 </body>
 </html>
