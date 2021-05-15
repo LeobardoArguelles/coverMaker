@@ -20,6 +20,8 @@ fileInput.addEventListener('change', function(e) {
 
     styleBox('image');
     nextBtn.disabled = false;
+
+    prevBtn.addEventListener('click', reset);
 });
 
 // Loads the uploaded image to view it and work with it
@@ -47,4 +49,20 @@ function styleBox(style) {
     default:
         break;
     }
+}
+
+// Resets previously made changes and leaves the
+// page ready to receive a different image
+function reset() {
+    fileInput.value = null;
+    hide(prevBtn);
+    hide(imgPrev);
+
+    show(upForm);
+    dropArea.style.visibility = '';
+
+    styleBox('dropbox');
+    nextBtn.disabled = true;
+
+    imgPrev.src = '';
 }
