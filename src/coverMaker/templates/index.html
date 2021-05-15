@@ -9,19 +9,37 @@
 </head>
 
 <body>
+  <!-- Flasher -->
+  <div id="flash-placeholder">
+  </div>
+
+  <!-- Main container -->
   <div id="box" class="flex flex-col items-center justify-center space-y-6 h-screen my-8">
+
+    <!-- Image -->
     <img id="preview" class="max-w-3xl hidden">
+
+    <!-- Drop area -->
     <div id="drop-area" class="outline-black bg-opacity-10 -z-10">
-      <form id='uploadForm' action="{{ url_for('loadImage') }}" method="POST" class="form">
-      <input id="image" type="file">
+      <!-- Form -->
+      <form id='uploadForm' enctype="multipart/form-data" action="{{ url_for('resize') }}" method="POST" class="form">
+        <input id="image" name="image" type="file">
+        <button type="submit" class="btn-green">Subir</button>
       </form>
     </div>
+
+    <!-- Buttons -->
     <div class="flex flex-row justify-center items-center  space-x-6">
     <button class="btn-green btn-disabled hidden" id="previous-btn">Regresar</button>
     <button class="btn-green btn-disabled" disabled="disabled" id="next-btn">Continuar</button>
     </div>
   </div>
+
+  <!-- Scripts -->
   <script src="/static/js/fileDropArea.js"></script>
   <script src="/static/js/navigate.js"></script>
+  <script src="/static/js/flashMessage.js"></script>
+  <script src="/static/js/asyncFormSubmit.js"></script>
+
 </body>
 </html>

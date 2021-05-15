@@ -80,6 +80,18 @@
     @apply disabled:bg-gray-300 disabled:text-black disabled:cursor-not-allowed disabled:opacity-50 disabled:border-black;
   }
 
+  .error {
+    @apply bg-red-600;
+  }
+
+  .success {
+    @apply bg-green-600;
+  }
+
+  .msg {
+    @apply bg-pink-600;
+  }
+
   .col-md-row {
     @apply flex flex-col md:flex-row;
   }
