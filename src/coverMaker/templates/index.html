@@ -9,12 +9,16 @@
 </head>
 
 <body>
-  <div class="flex flex-row items-center justify-center full-screen">
+  <div class="flex flex-col items-center justify-center space-y-6 h-screen">
     <div id="drop-area" class="outline-black bg-opacity-10 -z-10">
-    </div>
-    <form action="{{ url_for('loadImage') }}" method="POST" class="form">
+      <form action="{{ url_for('loadImage') }}" method="POST" class="form">
       <input id="image" type="file">
-    </form>
+      </form>
+    </div>
+    <div class="flex flex-row justify-center items-center  space-x-6">
+    <button class="btn-yellow hidden" disabled="disabled" id="previous-btn">Regresar</button>
+    <button class="btn-yellow" disabled="disabled" id="next-btn">Continuar</button>
+    </div>
   </div>
   <script src="/static/js/fileDropArea.js"></script>
 </body>
