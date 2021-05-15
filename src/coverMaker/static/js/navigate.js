@@ -27,7 +27,7 @@ let imgPrev = document.getElementById('preview');
 
 // Sends image to the server and receives the correct
 // size image (1600 width, whatever height)
-upForm.addEventListener('submit', function(e) {asyncSubmit(e)})
+// upForm.addEventListener('submit', function(e) {asyncSubmit(e)})
 
 
 // Loads the uploaded image to view it and work with it

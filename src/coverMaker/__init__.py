@@ -1,8 +1,12 @@
 import os
 
-from flask import Flask, render_template, request, make_response, json
+from flask import Flask, render_template, request, make_response, json, send_file, Response
+from PIL import Image, ImageOps
+from io import BytesIO
+from os.path import splitext
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+MAX_WIDTH = 1600
 
 def create_app(test_config=None):
     # create and configure the app
@@ -39,8 +43,24 @@ def create_app(test_config=None):
             return make_custom_response(400, 'error', 'No se incluyó la imagen.')
 
         if file and allowed_file(file.filename):
-            print(file.filename)
-            return make_custom_response(200, 'success', 'Ok')
+            filename = file.filename
+            ext = splitext(filename)[1][1:]
+            format = 'JPEG' if ext.lower() == 'jpg' else ext.upper()
+
+            with Image.open(file) as im:
+                # Resize and save to Bytes IO
+                factor =  MAX_WIDTH / im.width
+                resizedIm = ImageOps.scale(im, factor)
+                bytesIm = BytesIO()
+                resizedIm.save(bytesIm, format)
+                bytesIm.seek(0)
+
+        return send_file(bytesIm, attachment_filename=filename)
+        # return Response(resizedIm,
+        #                 status=200,
+        #                mimetype="text/plain",
+        #                headers={"Content-Disposition":
+        #                             "attachment;filename=" + filename})
 
     return app
 
