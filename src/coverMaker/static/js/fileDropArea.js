@@ -17,13 +17,13 @@ The full element would be like:
 */
 
 
-let dropArea = document.getElementById('drop-area');
+const dropArea = document.getElementById('drop-area');
 
 if (document.getElementById('drop-area-text')) {
   var dropAreaText = document.getElementById('drop-area-text');
 }
 
-let fileInput = document.getElementById('image');
+const fileInput = document.getElementById('image');
 
 dropArea.addEventListener('dragover', function(e) {
   // Prevent default to allow for drop without triggering other actions
@@ -79,9 +79,9 @@ function hideDropArea(){
 }
 
 function show(element){
-  element.classList.remove('hide');
+  element.classList.remove('hidden');
 }
 
 function hide(element){
-  element.classList.add('hide');
+  element.classList.add('hidden');
 }

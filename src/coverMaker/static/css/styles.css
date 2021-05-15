@@ -68,6 +68,15 @@
     @apply btn bg-yellow-400 border-yellow-600;
     @apply hover:bg-yellow-600 hover:text-black hover:border-yellow-600;
     @apply focus:ring-white ring-opacity-50;
+  }
+
+  .btn-green {
+    @apply btn bg-green-600 border-green-900;
+    @apply hover:bg-green-400 hover:text-black hover:border-green-600;
+    @apply focus:ring-white ring-opacity-50;
+  }
+
+  .btn-disabled {
     @apply disabled:bg-gray-300 disabled:text-black disabled:cursor-not-allowed disabled:opacity-50 disabled:border-black;
   }
 
