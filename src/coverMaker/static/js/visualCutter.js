@@ -91,7 +91,6 @@ function cropImage() {
     // new version
 
     crops = calculateCrop();
-    removeShadows();
 
     // Create form to send the data
     let form = document.createElement('form');
@@ -102,7 +101,7 @@ function cropImage() {
     let imInput = document.createElement('input');
     imInput.name = 'imageName';
     imInput.type = 'text';
-    imInput.value = imageName;
+    imInput.value = baseName(imgInput.value);;
 
     let upperCrop = document.createElement('input');
     upperCrop.name = 'upper';

@@ -73,6 +73,8 @@ def create_app(test_config=None):
 
         form = request.form
         original = form['imageName']
+        if not original:
+            return make_custom_response(400, 'error', 'Hubo un error, intenta de nuevo')
         upper = form['upper']
         lower = form['lower']
 

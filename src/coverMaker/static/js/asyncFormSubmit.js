@@ -90,9 +90,11 @@ function asyncSendImage(form) {
     }
     else if (data['kind'] === 'error') {
       flashError(data['message']);
+      reset();
     }
     else if (data['kind'] === 'src') {
       changeImage(data['message']);
+      removeShadows();
     }
     else {
       flashError('Ha ocurrido un error. Intenta de nuevo.');
