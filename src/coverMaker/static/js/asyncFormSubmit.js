@@ -20,6 +20,7 @@ function asyncSubmit(e) {
       console.log(data);
     if (data['kind'] === 'success') {
       flashSuccess(data['message']);
+      activateNav();
     }
     else if (data['kind'] === 'error') {
       flashError(data['message']);

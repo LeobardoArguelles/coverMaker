@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 MAX_WIDTH = 1600
-UPDIR = tempfile.gettempdir()
+UPDIR = join('.', 'coverMaker', 'static', 'uploads')
 
 def create_app(test_config=None):
     # create and configure the app
@@ -57,24 +57,18 @@ def create_app(test_config=None):
                 factor =  MAX_WIDTH / im.width
                 resizedIm = ImageOps.scale(im, factor)
 
-                resizedIm.save(join('.', 'coverMaker', 'static', 'uploads', filename), format)
+                resizedIm.save(join(UPDIR, filename), format)
+                print(url_for('static', filename=join('uploads', g.file)))
 
-            return make_custom_response(200, 'src', 'test')
-            # return redirect(url_for('serve', image=bytesIm))
-            # return make_response(bytesIm)
-        # return send_file(bytesIm, attachment_filename=filename, as_attachment=True)
-            # return Response(
-            #     response=bytesIm.getvalue(),
-            #     status=200,
-            #     mimetype="image/jpeg",
-            #     content_type="image/jpeg",
-            #     headers={'Content-Disposition': 'attachment'}
-            # )
+            return make_custom_response(200,
+                                        'src',
+                                        url_for('static', filename=join('uploads', g.file)))
 
 
-    @app.route('/serve/<image>')
-    def serve(image):
-        return Response(image.getvalue(), mimetype='image/jpeg')
+    @app.route('/serve')
+    def serve():
+        return url_for(join(UPDIR, g.file))
+
 
     return app
 
