@@ -4,12 +4,11 @@
 const uparrow = document.getElementById('uparrow');
 const downarrow = document.getElementById('downarrow');
 const cropbox = document.getElementById('crop-box');
-// const upperShadow = document.getElmentById('upper-shadow');
-// const lowerShadow = document.getElmentById('lower-shadow');
+var upperShadow = '';
+var lowerShadow = '';
 
-// uparrow.addEventListener('click', raiseCrop);
-// downarrow.addEventListener('click', lowerCrop);
-
+uparrow.addEventListener('click', raiseCrop);
+downarrow.addEventListener('click', lowerCrop);
 
 // Adds 2 different divs with black background and
 // low opacity, which will change in height to
@@ -24,16 +23,41 @@ function addShadows() {
     const shadowHeight = (imgHeight - imgHeight / realHeight * croppedHeight) / 2;
     console.log(shadowHeight);
 
-    let upperShadow = document.createElement('div');
-    upperShadow.id = 'upper-shadow';
-    upperShadow.classList.add('bg-black', 'opacity-50', 'absolute', 'inset-x-0', 'top-0');
-    upperShadow.style.height = shadowHeight.toString() + 'px';
+    let upShadow = document.createElement('div');
+    upShadow.id = 'upper-shadow';
+    upShadow.classList.add('bg-black', 'opacity-50', 'absolute', 'inset-x-0', 'top-0');
+    upShadow.style.height = shadowHeight.toString() + 'px';
 
-    let lowerShadow = document.createElement('div');
-    lowerShadow.id = 'lower-shadow';
-    lowerShadow.classList.add('bg-black', 'opacity-50', 'absolute', 'inset-x-0', 'bottom-0');
-    lowerShadow.style.height = shadowHeight.toString() + 'px';
+    let lowShadow = document.createElement('div');
+    lowShadow.id = 'lower-shadow';
+    lowShadow.classList.add('bg-black', 'opacity-50', 'absolute', 'inset-x-0', 'bottom-0');
+    lowShadow.style.height = shadowHeight.toString() + 'px';
 
-    cropbox.appendChild(upperShadow);
-    cropbox.appendChild(lowerShadow);
+    cropbox.appendChild(upShadow);
+    cropbox.appendChild(lowShadow);
+
+    upperShadow = document.getElementById('upper-shadow');
+    lowerShadow = document.getElementById('lower-shadow');
+}
+
+function raiseCrop() {
+    let uppH = parseHeight(upperShadow.style.height);
+    let lowH = parseHeight(lowerShadow.style.height);
+
+    upperShadow.style.height = (uppH - 1).toString() + 'px';
+    lowerShadow.style.height = (lowH + 1).toString() + 'px';
+}
+
+function lowerCrop() {
+    let uppH = parseHeight(upperShadow.style.height);
+    let lowH = parseHeight(lowerShadow.style.height);
+
+    upperShadow.style.height = (uppH + 1).toString() + 'px';
+    lowerShadow.style.height = (lowH - 1).toString() + 'px';
+}
+
+function parseHeight(strHeight) {
+    // :param strHeight: [String] Element's height in the form: '100px'
+    // :return: [Int] Only the height number
+    return parseInt(strHeight.split('px')[0]);
 }
