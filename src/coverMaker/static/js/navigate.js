@@ -62,8 +62,10 @@ function styleBox(style) {
 // page ready to receive a different image
 function reset() {
     fileInput.value = null;
+
     hide(prevBtn);
     hide(imgPrev);
+    hide(prevBox);
 
     show(upForm);
     dropArea.style.visibility = '';
@@ -72,5 +74,8 @@ function reset() {
     nextBtn.disabled = true;
 
     imgPrev.src = '';
+
+    remove(upperShadow);
+    remove(lowerShadow);
 }
 
