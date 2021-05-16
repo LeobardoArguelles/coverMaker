@@ -16,8 +16,17 @@
   <!-- Main container -->
   <div id="box" class="flex flex-col items-center justify-center space-y-6 h-screen my-8">
 
+   <div id='preview-box' class="flex flex-row justify-center items-center space-x-6 hidden">
     <!-- Image -->
-    <img id="preview" class="max-w-3xl hidden" src="{{ url_for('serve') }}">
+    <img id="preview" class="max-w-xl" src="{{ url_for('serve') }}">
+
+    <!-- Crop buttons -->
+    <div class="flex flex-col h-full space-y-4">
+      <img id='uparrow' src="{{ url_for('static', filename='svg/upArrow.svg') }}" class="h-28">
+      <img id='downarrow' src="{{ url_for('static', filename='svg/downArrow.svg') }}" class="h-28">
+    </div>
+
+   </div>
 
     <!-- Drop area -->
     <div id="drop-area" class="outline-black bg-opacity-10 -z-10">
@@ -31,7 +40,7 @@
     <!-- Buttons -->
     <div class="flex flex-row justify-center items-center  space-x-6">
     <button class="btn-green btn-disabled hidden" id="previous-btn">Regresar</button>
-    <button class="btn-green btn-disabled" disabled="disabled" id="next-btn">Continuar</button>
+    <button class="btn-green btn-disabled hidden" id="next-btn">Continuar</button>
     </div>
   </div>
 
@@ -39,6 +48,7 @@
   <script src="/static/js/fileDropArea.js"></script>
   <script src="/static/js/navigate.js"></script>
   <script src="/static/js/flashMessage.js"></script>
+  <script src="/static/js/visualCutter.js"></script>
   <script src="/static/js/asyncFormSubmit.js"></script>
 
 </body>

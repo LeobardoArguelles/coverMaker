@@ -4,12 +4,15 @@ const box = document.getElementById('box');
 const upForm = document.getElementById('uploadForm');
 const submitBtn = document.getElementById('submit-btn');
 let imgPrev = document.getElementById('preview');
+const prevBox = document.getElementById('preview-box');
 
 // Activate navigation buttons when a image is loaded
 // fileInput is defined in fileDropArea.js
 function activateNav() {
     show(prevBtn);
+    show(nextBtn);
     show(imgPrev);
+    show(prevBox);
 
     hide(upForm);
     // hide(dropArea);

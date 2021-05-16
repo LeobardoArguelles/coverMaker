@@ -20,7 +20,6 @@ function asyncSubmit(e) {
       console.log(data);
     if (data['kind'] === 'success') {
       flashSuccess(data['message']);
-      activateNav();
     }
     else if (data['kind'] === 'error') {
       flashError(data['message']);
@@ -28,6 +27,7 @@ function asyncSubmit(e) {
     else if (data['kind'] === 'src') {
       imgPrev.src = data['message'];
       activateNav();
+      addShadows();
     }
     else {
       flashError('Ha ocurrido un error. Intenta de nuevo.');
