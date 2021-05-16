@@ -1,12 +1,13 @@
-import os
-
-from flask import Flask, render_template, request, make_response, json, send_file, Response
+import os, tempfile
+from os.path import splitext, join
+from flask import Flask, render_template, request, make_response, json, send_file, Response, redirect, url_for, g
 from PIL import Image, ImageOps
 from io import BytesIO
-from os.path import splitext
+from werkzeug.utils import secure_filename
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 MAX_WIDTH = 1600
+UPDIR = tempfile.gettempdir()
 
 def create_app(test_config=None):
     # create and configure the app
@@ -44,6 +45,10 @@ def create_app(test_config=None):
 
         if file and allowed_file(file.filename):
             filename = file.filename
+
+            # Save filename on g to access it on template
+            g.file = filename
+
             ext = splitext(filename)[1][1:]
             format = 'JPEG' if ext.lower() == 'jpg' else ext.upper()
 
@@ -51,16 +56,25 @@ def create_app(test_config=None):
                 # Resize and save to Bytes IO
                 factor =  MAX_WIDTH / im.width
                 resizedIm = ImageOps.scale(im, factor)
-                bytesIm = BytesIO()
-                resizedIm.save(bytesIm, format)
-                bytesIm.seek(0)
 
-        return send_file(bytesIm, attachment_filename=filename)
-        # return Response(resizedIm,
-        #                 status=200,
-        #                mimetype="text/plain",
-        #                headers={"Content-Disposition":
-        #                             "attachment;filename=" + filename})
+                resizedIm.save(join('.', 'coverMaker', 'static', 'uploads', filename), format)
+
+            return make_custom_response(200, 'src', 'test')
+            # return redirect(url_for('serve', image=bytesIm))
+            # return make_response(bytesIm)
+        # return send_file(bytesIm, attachment_filename=filename, as_attachment=True)
+            # return Response(
+            #     response=bytesIm.getvalue(),
+            #     status=200,
+            #     mimetype="image/jpeg",
+            #     content_type="image/jpeg",
+            #     headers={'Content-Disposition': 'attachment'}
+            # )
+
+
+    @app.route('/serve/<image>')
+    def serve(image):
+        return Response(image.getvalue(), mimetype='image/jpeg')
 
     return app
 

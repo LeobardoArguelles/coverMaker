@@ -16,12 +16,17 @@ function asyncSubmit(e) {
     body: new FormData(form),
   })
   .then(response => response.json())
-  .then((data) => {
+    .then((data) => {
+      console.log(data);
     if (data['kind'] === 'success') {
       flashSuccess(data['message']);
     }
     else if (data['kind'] === 'error') {
       flashError(data['message']);
+    }
+    else if (data['kind'] === 'src') {
+      imgPrev.src = data['message'];
+      activateNav();
     }
     else {
       flashError('Ha ocurrido un error. Intenta de nuevo.');

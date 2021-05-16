@@ -2,32 +2,30 @@ const prevBtn = document.getElementById('previous-btn');
 const nextBtn = document.getElementById('next-btn');
 const box = document.getElementById('box');
 const upForm = document.getElementById('uploadForm');
+const submitBtn = document.getElementById('submit-btn');
 let imgPrev = document.getElementById('preview');
 
 // Activate navigation buttons when a image is loaded
 // fileInput is defined in fileDropArea.js
-// fileInput.addEventListener('change', function(e) {
-//     // const upImage = resizeImage(e);
-//     // loadImage(upImage);
+function activateNav() {
+    show(prevBtn);
+    show(imgPrev);
 
-//     show(prevBtn);
-//     show(imgPrev);
+    hide(upForm);
+    // hide(dropArea);
+    // Use js instead of css because dropArea has
+    // display:flex, which overrides the class hidden
+    dropArea.style.visibility = 'hidden';
 
-//     hide(upForm);
-//     // hide(dropArea);
-//     // Use js instead of css because dropArea has
-//     // display:flex, which overrides the class hidden
-//     dropArea.style.visibility = 'hidden';
+    styleBox('image');
+    nextBtn.disabled = false;
 
-//     styleBox('image');
-//     nextBtn.disabled = false;
-
-//     prevBtn.addEventListener('click', reset);
-// });
+    prevBtn.addEventListener('click', reset);
+}
 
 // Sends image to the server and receives the correct
 // size image (1600 width, whatever height)
-// upForm.addEventListener('submit', function(e) {asyncSubmit(e)})
+upForm.addEventListener('submit', function(e) {asyncSubmit(e)})
 
 
 // Loads the uploaded image to view it and work with it
