@@ -17,7 +17,6 @@ function asyncSubmit(e) {
   })
   .then(response => response.json())
     .then((data) => {
-      console.log(data);
     if (data['kind'] === 'success') {
       flashSuccess(data['message']);
     }
@@ -73,4 +72,31 @@ function asyncGetFiles(e) {
 
   // Prevent the default form submit
   e.preventDefault();
+}
+
+
+function asyncSendImage(form) {
+
+  // Post data using the Fetch API
+  fetch(form.action, {
+    method: form.method,
+    body: new FormData(form),
+  })
+  .then(response => response.json())
+    .then((data) => {
+      console.log(data);
+    if (data['kind'] === 'success') {
+      flashSuccess(data['message']);
+    }
+    else if (data['kind'] === 'error') {
+      flashError(data['message']);
+    }
+    else if (data['kind'] === 'src') {
+      imgPrev.src = data['message'];
+      console.log('All Good');
+    }
+    else {
+      flashError('Ha ocurrido un error. Intenta de nuevo.');
+    }
+  });
 }

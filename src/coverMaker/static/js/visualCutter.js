@@ -14,6 +14,8 @@ uparrow.addEventListener('mouseup', () => {mouseIsDown = false;});
 downarrow.addEventListener('mousedown', lowerCrop);
 downarrow.addEventListener('mouseup', () => {mouseIsDown = false;});
 
+nextBtn.addEventListener('click', cropImage);
+
 // Adds 2 different divs with black background and
 // low opacity, which will change in height to
 // indicate where the image will be cropped.
@@ -25,23 +27,15 @@ function addShadows() {
     const croppedHeight = 900;
     // We use 2 shadows so the height is split among them.
     const shadowHeight = (imgHeight - imgHeight / realHeight * croppedHeight) / 2;
-    console.log('imgHeight: ' + imgHeight);
-    console.log('realHeight: ' + realHeight);
-    console.log('croppedHeight: ' + croppedHeight);
-    console.log(shadowHeight);
-    // if (!isFinite(shadowHeight)) {
-    //     console.log('Is infinite');
-    //     return setTimeout(addShadows(), 5000);
-    // }
 
     let upShadow = document.createElement('div');
     upShadow.id = 'upper-shadow';
-    upShadow.classList.add('bg-black', 'opacity-50', 'absolute', 'inset-x-0', 'top-0');
+    upShadow.classList.add('bg-black', 'absolute', 'inset-x-0', 'top-0');
     upShadow.style.height = shadowHeight.toString() + 'px';
 
     let lowShadow = document.createElement('div');
     lowShadow.id = 'lower-shadow';
-    lowShadow.classList.add('bg-black', 'opacity-50', 'absolute', 'inset-x-0', 'bottom-0');
+    lowShadow.classList.add('bg-black', 'absolute', 'inset-x-0', 'bottom-0');
     lowShadow.style.height = shadowHeight.toString() + 'px';
 
     cropbox.appendChild(upShadow);
@@ -90,4 +84,58 @@ function parseHeight(strHeight) {
     // :param strHeight: [String] Element's height in the form: '100px'
     // :return: [Int] Only the height number
     return parseInt(strHeight.split('px')[0]);
+}
+
+function cropImage() {
+    // Sends image to server to be cropped, and replaces it with the
+    // new version
+
+    crops = calculateCrop();
+    // Create form to send the data
+    let form = document.createElement('form');
+    // cropRoute defined on the template, to use a Jinja variable
+    form.action = cropRoute;
+    form.method = 'POST';
+
+    let imInput = document.createElement('input');
+    imInput.name = 'imageName';
+    imInput.type = 'text';
+    imInput.value = imageName;
+
+    let upperCrop = document.createElement('input');
+    upperCrop.name = 'upper';
+    upperCrop.type = 'number';
+    upperCrop.value = crops['top'];
+
+    let lowerCrop = document.createElement('input');
+    lowerCrop.name = 'lower';
+    lowerCrop.type = 'number';
+    lowerCrop.value = crops['bottom'];
+
+    form.appendChild(imInput);
+    form.appendChild(upperCrop);
+    form.appendChild(lowerCrop);
+
+    asyncSendImage(form);
+}
+
+
+function calculateCrop() {
+    // Calculate where the image will be cropped.
+    // :return: Object with 'top' and 'bottom' keys
+    //          indicatig where to crop the image
+    const imHeight = imgPrev.height;
+    const upperShadowHeight = upperShadow.style.height;
+    const lowerShadowHeight = lowerShadow.style.height;
+
+    let upperCrop = upperShadowHeight / imHeight;
+    let lowerCrop = lowerShadowHeight / imHeight;
+
+    let crops = {
+        top: upperCrop,
+        bottom: lowerCrop
+    };
+
+    return crops
+
 }

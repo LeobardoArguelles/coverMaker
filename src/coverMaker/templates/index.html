@@ -19,7 +19,7 @@
    <div id='preview-box' class="flex flex-col md:flex-row justify-center items-center space-y-6 md:space-x-6 hidden">
     <!-- Image -->
     <div id="crop-box"  class="relative">
-      <img id="preview" class="h-60 md:h-80" src="{{ url_for('serve') }}">
+      <img id="preview" class="h-60 md:h-80" src="">
     </div>
 
     <!-- Crop buttons -->
@@ -41,12 +41,17 @@
 
     <!-- Buttons -->
     <div class="flex flex-row justify-center items-center  space-x-6">
-    <button class="btn-green btn-disabled hidden" id="previous-btn">Regresar</button>
-    <button class="btn-green btn-disabled hidden" id="next-btn">Continuar</button>
+      <button class="btn-green btn-disabled hidden" id="previous-btn">Regresar</button>
+      <button class="btn-green btn-disabled hidden" id="next-btn">Continuar</button>
     </div>
   </div>
 
   <!-- Scripts -->
+  <script>
+    // Declare here these variables to use Jinja
+    imageName = '{{ g.file }}';
+    cropRoute = "{{ url_for('crop') }}";
+  </script>
   <script src="/static/js/helpers.js"></script>
   <script src="/static/js/fileDropArea.js"></script>
   <script src="/static/js/navigate.js"></script>

@@ -65,10 +65,21 @@ def create_app(test_config=None):
                                         url_for('static', filename=join('uploads', g.file)))
 
 
-    @app.route('/serve')
-    def serve():
-        return url_for(join(UPDIR, g.file))
+    @app.route('/crop', methods=(['POST']))
+    def crop():
+        # Crop an image received in a form, save it
+        # and return the cropped image filepath to serve it to the client
 
+        form = request.form
+        original = form['imageName']
+        upper = form['upper']
+        lower = form['lower']
+        print(upper)
+        print(lower)
+        # TODO: Crop and save
+        return make_custom_response(200,
+                                    'src',
+                                    original)
 
     return app
 
