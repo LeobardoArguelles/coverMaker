@@ -91,7 +91,8 @@ function cropImage() {
     // new version
 
     crops = calculateCrop();
-    console.log(crops);
+    removeShadows();
+
     // Create form to send the data
     let form = document.createElement('form');
     // cropRoute defined on the template, to use a Jinja variable
@@ -139,4 +140,24 @@ function calculateCrop() {
 
     return crops
 
+}
+
+function removeShadows() {
+    remove(upperShadow);
+    remove(lowerShadow);
+}
+
+function changeImage(source) {
+    // Deletes the current preview image, and creates a
+    // new one with the provided source.
+    // :param source: Source for the new image
+
+    remove(imgPrev);
+
+    let newImg = document.createElement('img');
+    newImg.id = 'preview';
+    newImg.src = source;
+    newImg.classList.add('h-60', 'md:h-80');
+
+    cropbox.appendChild(newImg);
 }

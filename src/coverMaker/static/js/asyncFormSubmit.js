@@ -92,8 +92,7 @@ function asyncSendImage(form) {
       flashError(data['message']);
     }
     else if (data['kind'] === 'src') {
-      imgPrev.src = data['message'];
-      console.log('All Good');
+      changeImage(data['message']);
     }
     else {
       flashError('Ha ocurrido un error. Intenta de nuevo.');

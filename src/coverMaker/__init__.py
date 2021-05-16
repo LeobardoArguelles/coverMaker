@@ -3,6 +3,7 @@ from os.path import splitext, join
 from flask import Flask, render_template, request, make_response, json, send_file, Response, redirect, url_for, g
 from PIL import Image, ImageOps
 from io import BytesIO
+from math import ceil
 from werkzeug.utils import secure_filename
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -74,12 +75,22 @@ def create_app(test_config=None):
         original = form['imageName']
         upper = form['upper']
         lower = form['lower']
-        print(upper)
-        print(lower)
-        # TODO: Crop and save
+
+        with Image.open(join(UPDIR, original)) as im:
+            width, height = im.size
+            print(f"height: {height}")
+
+            topCrop = ceil(height * float(upper))
+            print(f"top: {topCrop}")
+            botCrop = height - ceil(height * float(lower))
+            print(f"bot: {botCrop}")
+            cropIm = im.crop((0, topCrop, width, botCrop))
+            cropIm.save(join(UPDIR, 'cropped' + original))
+
         return make_custom_response(200,
                                     'src',
-                                    original)
+                                    url_for('static', filename=join('uploads',
+                                                                    'cropped' + original)))
 
     return app
 

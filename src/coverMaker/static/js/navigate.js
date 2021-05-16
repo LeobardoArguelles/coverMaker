@@ -4,6 +4,7 @@ const box = document.getElementById('box');
 const upForm = document.getElementById('uploadForm');
 const submitBtn = document.getElementById('submit-btn');
 let imgPrev = document.getElementById('preview');
+const imgInput = document.getElementById('image');
 const prevBox = document.getElementById('preview-box');
 
 // Activate navigation buttons when a image is loaded
@@ -30,6 +31,10 @@ function activateNav() {
 // size image (1600 width, whatever height)
 upForm.addEventListener('submit', function(e) {asyncSubmit(e)})
 
+// Save file name to use later
+imgInput.addEventListener('change', function() {
+    imageName = baseName(imgInput.value);
+} );
 
 // Loads the uploaded image to view it and work with it
 // on the app
@@ -79,3 +84,8 @@ function reset() {
     remove(lowerShadow);
 }
 
+function baseName(str)
+{
+   var base = new String(str).substring(str.lastIndexOf('\\') + 1);
+   return base;
+}
