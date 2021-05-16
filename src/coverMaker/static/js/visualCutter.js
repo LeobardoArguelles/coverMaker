@@ -25,7 +25,14 @@ function addShadows() {
     const croppedHeight = 900;
     // We use 2 shadows so the height is split among them.
     const shadowHeight = (imgHeight - imgHeight / realHeight * croppedHeight) / 2;
+    console.log('imgHeight: ' + imgHeight);
+    console.log('realHeight: ' + realHeight);
+    console.log('croppedHeight: ' + croppedHeight);
     console.log(shadowHeight);
+    // if (!isFinite(shadowHeight)) {
+    //     console.log('Is infinite');
+    //     return setTimeout(addShadows(), 5000);
+    // }
 
     let upShadow = document.createElement('div');
     upShadow.id = 'upper-shadow';
@@ -42,6 +49,7 @@ function addShadows() {
 
     upperShadow = document.getElementById('upper-shadow');
     lowerShadow = document.getElementById('lower-shadow');
+
 }
 
 function raiseCrop() {

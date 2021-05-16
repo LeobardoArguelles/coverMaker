@@ -27,7 +27,8 @@ function asyncSubmit(e) {
     else if (data['kind'] === 'src') {
       imgPrev.src = data['message'];
       activateNav();
-      addShadows();
+      // Wait a little bit to allow image to load
+      setTimeout(addShadows, 250);
     }
     else {
       flashError('Ha ocurrido un error. Intenta de nuevo.');
