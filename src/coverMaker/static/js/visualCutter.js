@@ -91,6 +91,7 @@ function cropImage() {
     // new version
 
     crops = calculateCrop();
+    console.log(crops);
     // Create form to send the data
     let form = document.createElement('form');
     // cropRoute defined on the template, to use a Jinja variable
@@ -125,8 +126,8 @@ function calculateCrop() {
     // :return: Object with 'top' and 'bottom' keys
     //          indicatig where to crop the image
     const imHeight = imgPrev.height;
-    const upperShadowHeight = upperShadow.style.height;
-    const lowerShadowHeight = lowerShadow.style.height;
+    const upperShadowHeight = parseHeight(upperShadow.style.height);
+    const lowerShadowHeight = parseHeight(lowerShadow.style.height);
 
     let upperCrop = upperShadowHeight / imHeight;
     let lowerCrop = lowerShadowHeight / imHeight;
