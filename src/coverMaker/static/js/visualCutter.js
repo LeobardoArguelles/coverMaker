@@ -48,30 +48,34 @@ function raiseCrop() {
     let uppH = parseHeight(upperShadow.style.height);
     let lowH = parseHeight(lowerShadow.style.height);
 
-    upperShadow.style.height = (uppH - 1).toString() + 'px';
-    lowerShadow.style.height = (lowH + 1).toString() + 'px';
+    if (uppH > 0) {
+        upperShadow.style.height = (uppH - 1).toString() + 'px';
+        lowerShadow.style.height = (lowH + 1).toString() + 'px';
 
-    mouseIsDown = true;
-    setTimeout(function() {
-        if(mouseIsDown) {
-            raiseCrop();
-        }
-    }, 500);
+        mouseIsDown = true;
+        setTimeout(function() {
+            if(mouseIsDown) {
+                raiseCrop();
+            }
+        }, 100);
+    }
 }
 
 function lowerCrop() {
     let uppH = parseHeight(upperShadow.style.height);
     let lowH = parseHeight(lowerShadow.style.height);
 
-    upperShadow.style.height = (uppH + 1).toString() + 'px';
-    lowerShadow.style.height = (lowH - 1).toString() + 'px';
+    if (lowH > 0) {
+        upperShadow.style.height = (uppH + 1).toString() + 'px';
+        lowerShadow.style.height = (lowH - 1).toString() + 'px';
 
-    mouseIsDown = true;
-    setTimeout(function() {
-        if(mouseIsDown) {
-            lowerCrop();
-        }
-    }, 500);
+        mouseIsDown = true;
+        setTimeout(function() {
+            if(mouseIsDown) {
+                lowerCrop();
+            }
+        }, 100);
+    }
 }
 
 function parseHeight(strHeight) {
