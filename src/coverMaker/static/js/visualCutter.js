@@ -20,7 +20,15 @@ nextBtn.addEventListener('click', cropImage);
 // low opacity, which will change in height to
 // indicate where the image will be cropped.
 function addShadows() {
-    const imgHeight = imgPrev.height;
+    // Sometimes imgPrev.height is the same as it‘s natural
+    // height, I don't know why. To detect it, compare it
+    // to it's container height, and use the smaller one.
+    let imgHeight = imgPrev.height;
+    const divHeight = document.getElementById('crop-box').clientHeight;
+    if (imgHeight > divHeight) {
+        imgHeight = divHeight;
+    }
+
     const realHeight = imgPrev.naturalHeight;
 
     // Desired height of the final image
