@@ -4,11 +4,15 @@
 const uparrow = document.getElementById('uparrow');
 const downarrow = document.getElementById('downarrow');
 const cropbox = document.getElementById('crop-box');
+let mouseIsDown = false;
 var upperShadow = '';
 var lowerShadow = '';
 
-uparrow.addEventListener('click', raiseCrop);
-downarrow.addEventListener('click', lowerCrop);
+uparrow.addEventListener('mousedown', raiseCrop);
+uparrow.addEventListener('mouseup', () => {mouseIsDown = false;});
+
+downarrow.addEventListener('mousedown', lowerCrop);
+downarrow.addEventListener('mouseup', () => {mouseIsDown = false;});
 
 // Adds 2 different divs with black background and
 // low opacity, which will change in height to
@@ -46,6 +50,13 @@ function raiseCrop() {
 
     upperShadow.style.height = (uppH - 1).toString() + 'px';
     lowerShadow.style.height = (lowH + 1).toString() + 'px';
+
+    mouseIsDown = true;
+    setTimeout(function() {
+        if(mouseIsDown) {
+            raiseCrop();
+        }
+    }, 500);
 }
 
 function lowerCrop() {
@@ -54,6 +65,13 @@ function lowerCrop() {
 
     upperShadow.style.height = (uppH + 1).toString() + 'px';
     lowerShadow.style.height = (lowH - 1).toString() + 'px';
+
+    mouseIsDown = true;
+    setTimeout(function() {
+        if(mouseIsDown) {
+            lowerCrop();
+        }
+    }, 500);
 }
 
 function parseHeight(strHeight) {
