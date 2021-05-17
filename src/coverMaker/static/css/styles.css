@@ -96,6 +96,10 @@
     @apply flex flex-col md:flex-row;
   }
 
+  .text-shadow {
+    text-shadow: black 2px 2px;
+  }
+
   #drop-area {
     @apply flex flex-col h-2/3 w-2/3 items-center justify-center m-0;
     @apply transition-all ease-in duration-150;

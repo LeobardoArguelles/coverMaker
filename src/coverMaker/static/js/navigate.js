@@ -94,6 +94,11 @@ function loadBannerMenu() {
     downarrow.addEventListener('mousedown', raiseBanner);
     downarrow.addEventListener('mouseup', () => {mouseIsDown = false;});
 
+    let inputsDiv = document.createElement('div');
+    inputsDiv.classList.add('flex', 'flex-col', 'justify-center', 'items-start', 'mb-6', 'pl-10');
+
+    // Color input div
+
     let colorDiv = document.createElement('div');
     colorDiv.classList.add('flex', 'flex-row', 'justify-center', 'items-center', 'space-x-10', 'mb-6');
 
@@ -115,7 +120,36 @@ function loadBannerMenu() {
 
     colorDiv.appendChild(colorLabel);
     colorDiv.appendChild(colorPicker);
-    imgPrev.after(colorDiv);
+
+    // Title input div
+
+    let titleDiv = document.createElement('div');
+    titleDiv.classList.add('flex', 'flex-row', 'justify-center', 'items-center', 'space-x-10', 'mb-6');
+
+    let titleLabel =  document.createElement('label');
+    titleLabel.htmlFor = 'title';
+    titleLabel.innerText = 'Título: ';
+    titleLabel.classList.add('text-2xl');
+
+    let titleInput = document.createElement('input');
+    titleInput.type = 'text';
+    titleInput.classList.add('pl-2', 'border-solid', 'border-2', 'rounded-sm', 'border-indigo-500', 'placeholder-indigo-600', 'placeholder-opacity-50');
+    titleInput.placeholder = 'Trabaja desde casa, salva al mundo';
+    titleInput.size = 35;
+    titleInput.name = 'title';
+    titleInput.id = 'titleInput';
+    titleInput.addEventListener('input', function(e) {
+        let titleInput = document.getElementById('title');
+        titleInput.innerText = e.target.value;
+    });
+
+    titleDiv.appendChild(titleLabel);
+    titleDiv.appendChild(titleInput);
+
+    inputsDiv.appendChild(titleDiv);
+    inputsDiv.appendChild(colorDiv);
+
+    imgPrev.after(inputsDiv);
 
     addBanner();
 }
@@ -130,7 +164,13 @@ function addBanner() {
     let bannerDiv = document.createElement('div');
     bannerDiv.id = 'banner';
     bannerDiv.style.height = imgHeight / 6  + 'px';
-    bannerDiv.classList.add('bg-black', 'w-full');
+    bannerDiv.classList.add('bg-black', 'w-full', 'flex', 'flex-col', 'justify-center');
+
+    let title = document.createElement('p');
+    title.id = 'title';
+    title.classList.add('text-white', 'text-shadow', 'text-center', 'text-2xl');
+
+    bannerDiv.appendChild(title);
 
     let positionBanner = document.createElement('div');
     positionBanner.id = 'posBanner';

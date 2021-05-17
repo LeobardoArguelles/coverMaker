@@ -953,6 +953,10 @@ form {
   }
 }
 
+.text-shadow {
+  text-shadow: black 2px 2px;
+}
+
 #drop-area {
   display: flex;
   flex-direction: column;
