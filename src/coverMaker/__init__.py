@@ -77,6 +77,8 @@ def create_app(test_config=None):
             return make_custom_response(400, 'error', 'Hubo un error, intenta de nuevo')
         upper = form['upper']
         lower = form['lower']
+        print(f"upper: {upper}")
+        print(f"lower: {lower}")
 
         with Image.open(join(UPDIR, original)) as im:
             width, height = im.size

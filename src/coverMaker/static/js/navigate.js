@@ -1,11 +1,5 @@
-const prevBtn = document.getElementById('previous-btn');
-const nextBtn = document.getElementById('next-btn');
-const box = document.getElementById('box');
-const upForm = document.getElementById('uploadForm');
-const submitBtn = document.getElementById('submit-btn');
-let imgPrev = document.getElementById('preview');
-const imgInput = document.getElementById('image');
-const prevBox = document.getElementById('preview-box');
+
+nextBtn.addEventListener('click', loadBannerMenu);
 
 // Activate navigation buttons when a image is loaded
 // fileInput is defined in fileDropArea.js
@@ -22,7 +16,8 @@ function activateNav() {
     dropArea.style.visibility = 'hidden';
 
     styleBox('image');
-    nextBtn.disabled = false;
+    // nextBtn.addEventListener('click', addBanner);
+    // nextBtn.addEventListener('click')
 
     prevBtn.addEventListener('click', reset);
 }
@@ -80,12 +75,61 @@ function reset() {
 
     imgPrev.src = '';
 
-    remove(upperShadow);
-    remove(lowerShadow);
+    removeShadows();
 }
 
 function baseName(str)
 {
    var base = new String(str).substring(str.lastIndexOf('\\') + 1);
    return base;
+}
+
+function loadBannerMenu() {
+    // Loads the next menu, adds the banner, and replaces
+    // the arrows to change the position of the banner.
+    addBanner();
+    clearArrowsListeners();
+
+    uparrow.addEventListener('mousedown', lowerBanner);
+    uparrow.addEventListener('mouseup', () => {mouseIsDown = false;});
+    downarrow.addEventListener('mousedown', raiseBanner);
+    downarrow.addEventListener('mouseup', () => {mouseIsDown = false;});
+
+    let colorPicker = document.createElement('input');
+    colorPicker.type = 'color';
+    colorPicker.id = 'color';
+}
+
+function addBanner() {
+    // Add a div to simulate where the banner will go.
+    const imgHeight = getImageHeight();
+
+    let bannersDiv = document.createElement('div');
+    bannersDiv.classList.add('absolute', 'w-full');
+
+    let bannerDiv = document.createElement('div');
+    bannerDiv.id = 'banner';
+    bannerDiv.style.height = imgHeight / 6  + 'px';
+    bannerDiv.classList.add('bg-white', 'w-full');
+
+    let positionBanner = document.createElement('div');
+    positionBanner.id = 'posBanner';
+    positionBanner.style.height = imgHeight / 4 + 'px';
+    positionBanner.classList.add('bg-transparent', 'w-full');
+
+    bannersDiv.appendChild(positionBanner);
+    bannersDiv.appendChild(bannerDiv);
+    cropbox.appendChild(bannersDiv);
+}
+
+function clearArrowsListeners() {
+    // Delete all event listeners in arrows by cloning them
+    uparrow = cloneElement(uparrow);
+    downarrow = cloneElement(downarrow);
+}
+
+function cloneElement(el) {
+    var new_element = el.cloneNode(true);
+    el.parentNode.replaceChild(new_element, el);
+    return new_element;
 }

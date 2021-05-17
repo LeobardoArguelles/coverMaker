@@ -1,8 +1,8 @@
 // Controls the visual cropper of the image.
 // This cropper is set to 900 px, and can be moved
 // by the user.
-const uparrow = document.getElementById('uparrow');
-const downarrow = document.getElementById('downarrow');
+let uparrow = document.getElementById('uparrow');
+let downarrow = document.getElementById('downarrow');
 const cropbox = document.getElementById('crop-box');
 let mouseIsDown = false;
 var upperShadow = '';
@@ -23,11 +23,7 @@ function addShadows() {
     // Sometimes imgPrev.height is the same as it‘s natural
     // height, I don't know why. To detect it, compare it
     // to it's container height, and use the smaller one.
-    let imgHeight = imgPrev.height;
-    const divHeight = document.getElementById('crop-box').clientHeight;
-    if (imgHeight > divHeight) {
-        imgHeight = divHeight;
-    }
+    let imgHeight = getImageHeight();
 
     const realHeight = imgPrev.naturalHeight;
 
@@ -133,7 +129,7 @@ function calculateCrop() {
     // Calculate where the image will be cropped.
     // :return: Object with 'top' and 'bottom' keys
     //          indicatig where to crop the image
-    const imHeight = imgPrev.height;
+    let imHeight = getImageHeight();
     const upperShadowHeight = parseHeight(upperShadow.style.height);
     const lowerShadowHeight = parseHeight(lowerShadow.style.height);
 
@@ -166,5 +162,19 @@ function changeImage(source) {
     newImg.src = source;
     newImg.classList.add('h-60', 'md:h-80');
 
+    imgPrev = newImg;
+
     cropbox.appendChild(newImg);
+}
+
+function getImageHeight() {
+    // Sometimes imgPrev.height is the same as it‘s natural
+    // height, I don't know why. To detect it, compare it
+    // to it's container height, and use the smaller one.
+    let imgHeight = imgPrev.height;
+    const divHeight = document.getElementById('crop-box').clientHeight;
+    if (imgHeight > divHeight) {
+        imgHeight = divHeight;
+    }
+    return imgHeight;
 }
