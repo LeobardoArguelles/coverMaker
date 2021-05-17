@@ -33,3 +33,11 @@ function lowerBanner() {
         }, 25);
     }
 }
+
+function changeBannerColor(color) {
+    // Change banner div background color, with a color
+    // selected with the color picker element.
+
+    const banner = document.getElementById('banner');
+    banner.style.backgroundColor = color;
+}

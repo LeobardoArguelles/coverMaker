@@ -87,7 +87,6 @@ function baseName(str)
 function loadBannerMenu() {
     // Loads the next menu, adds the banner, and replaces
     // the arrows to change the position of the banner.
-    addBanner();
     clearArrowsListeners();
 
     uparrow.addEventListener('mousedown', lowerBanner);
@@ -95,9 +94,30 @@ function loadBannerMenu() {
     downarrow.addEventListener('mousedown', raiseBanner);
     downarrow.addEventListener('mouseup', () => {mouseIsDown = false;});
 
+    let colorDiv = document.createElement('div');
+    colorDiv.classList.add('flex', 'flex-row', 'justify-center', 'items-center', 'space-x-10', 'mb-6');
+
+    let colorLabel = document.createElement('label');
+    colorLabel.htmlFor = 'color';
+    colorLabel.classList.add('cursor-pointer');
+    colorLabel.innerText = 'Elige color: ';
+    colorLabel.classList.add('text-2xl');
+
     let colorPicker = document.createElement('input');
     colorPicker.type = 'color';
+    colorPicker.classList.add('cursor-pointer');
     colorPicker.id = 'color';
+    colorPicker.name = 'color';
+    colorPicker.addEventListener('change', function() {
+        const chosenColor = color.value;
+        changeBannerColor(chosenColor);
+    });
+
+    colorDiv.appendChild(colorLabel);
+    colorDiv.appendChild(colorPicker);
+    imgPrev.after(colorDiv);
+
+    addBanner();
 }
 
 function addBanner() {
@@ -110,7 +130,7 @@ function addBanner() {
     let bannerDiv = document.createElement('div');
     bannerDiv.id = 'banner';
     bannerDiv.style.height = imgHeight / 6  + 'px';
-    bannerDiv.classList.add('bg-white', 'w-full');
+    bannerDiv.classList.add('bg-black', 'w-full');
 
     let positionBanner = document.createElement('div');
     positionBanner.id = 'posBanner';
