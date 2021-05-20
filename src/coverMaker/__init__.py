@@ -101,11 +101,12 @@ def create_app(test_config=None):
         Use it to create the real image, and send it to be downloaded.
         """
         form = request.form
+        print(form)
         pos = form['position']
         color = form['color']
         title = form['title']
 
-
+        return make_custom_response(200, 'success', 'Ok')
 
     return app
 

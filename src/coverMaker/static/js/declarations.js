@@ -1,5 +1,5 @@
 const prevBtn = document.getElementById('previous-btn');
-const nextBtn = document.getElementById('next-btn');
+let nextBtn = document.getElementById('next-btn');
 const box = document.getElementById('box');
 const upForm = document.getElementById('uploadForm');
 const submitBtn = document.getElementById('submit-btn');

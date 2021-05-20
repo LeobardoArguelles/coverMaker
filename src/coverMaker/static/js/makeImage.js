@@ -27,20 +27,16 @@ function makeImage() {
     colorInput.value = color;
 
     const titleInput = document.createElement('input');
-    colorInput.name = 'title';
-    colorInput.type = 'text';
-    colorInput.value = title;
+    titleInput.name = 'title';
+    titleInput.type = 'text';
+    titleInput.value = title;
 
     form.appendChild(posInput);
     form.appendChild(colorInput);
     form.appendChild(titleInput);
 
-    asyncSubmit(form);
+    asyncMakeImage(form);
 }
-
-    const pos = getBannerPosition();
-    const color = getBannerColor();
-    const title = getTitle();
 
 function getBannerPosition() {
     // Return the relation between the image element
@@ -66,5 +62,5 @@ function getBannerColor() {
 
 function getTitle() {
     const titleInput = document.getElementById('title');
-    return titleInput.value;
+    return titleInput.innerText;
 }

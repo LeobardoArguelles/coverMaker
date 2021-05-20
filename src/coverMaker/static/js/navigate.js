@@ -117,7 +117,7 @@ function loadBannerMenu() {
     colorPicker.id = 'color';
     colorPicker.name = 'color';
     colorPicker.addEventListener('change', function() {
-        const chosenColor = color.value;
+        const chosenColor = this.value;
         changeBannerColor(chosenColor);
     });
 
