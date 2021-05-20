@@ -88,11 +88,14 @@ function loadBannerMenu() {
     // Loads the next menu, adds the banner, and replaces
     // the arrows to change the position of the banner.
     clearArrowsListeners();
+    clearNextBtnListener();
 
     uparrow.addEventListener('mousedown', lowerBanner);
     uparrow.addEventListener('mouseup', () => {mouseIsDown = false;});
     downarrow.addEventListener('mousedown', raiseBanner);
     downarrow.addEventListener('mouseup', () => {mouseIsDown = false;});
+
+    nextBtn.addEventListener('click', makeImage);
 
     let inputsDiv = document.createElement('div');
     inputsDiv.classList.add('flex', 'flex-col', 'justify-center', 'items-start', 'mb-6', 'pl-10');
@@ -186,6 +189,12 @@ function clearArrowsListeners() {
     // Delete all event listeners in arrows by cloning them
     uparrow = cloneElement(uparrow);
     downarrow = cloneElement(downarrow);
+}
+
+function clearNextBtnListener() {
+    // Delete all event listeners in the button used
+    // to advance to next step
+    nextBtn = cloneElement(nextBtn);
 }
 
 function cloneElement(el) {

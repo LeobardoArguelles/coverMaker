@@ -84,7 +84,6 @@ function asyncSendImage(form) {
   })
   .then(response => response.json())
     .then((data) => {
-      console.log(data);
     if (data['kind'] === 'success') {
       flashSuccess(data['message']);
     }
