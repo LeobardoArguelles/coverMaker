@@ -59,7 +59,6 @@ def create_app(test_config=None):
                 resizedIm = ImageOps.scale(im, factor)
 
                 resizedIm.save(join(UPDIR, filename), format)
-                print(url_for('static', filename=join('uploads', g.file)))
 
             return make_custom_response(200,
                                         'src',
@@ -77,17 +76,12 @@ def create_app(test_config=None):
             return make_custom_response(400, 'error', 'Hubo un error, intenta de nuevo')
         upper = form['upper']
         lower = form['lower']
-        print(f"upper: {upper}")
-        print(f"lower: {lower}")
 
         with Image.open(join(UPDIR, original)) as im:
             width, height = im.size
-            print(f"height: {height}")
 
             topCrop = ceil(height * float(upper))
-            print(f"top: {topCrop}")
             botCrop = height - ceil(height * float(lower))
-            print(f"bot: {botCrop}")
             cropIm = im.crop((0, topCrop, width, botCrop))
             cropIm.save(join(UPDIR, 'cropped' + original))
 
@@ -95,6 +89,23 @@ def create_app(test_config=None):
                                     'src',
                                     url_for('static', filename=join('uploads',
                                                                     'cropped' + original)))
+
+
+    @app.route('/make_image', methods=(['POST']))
+    def makeImage():
+        """
+        Read data received in a form:
+            - Banner position
+            - Banner color
+            - Title
+        Use it to create the real image, and send it to be downloaded.
+        """
+        form = request.form
+        pos = form['position']
+        color = form['color']
+        title = form['title']
+
+
 
     return app
 
