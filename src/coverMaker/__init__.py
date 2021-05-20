@@ -1,7 +1,7 @@
 import os, tempfile
 from os.path import splitext, join
 from flask import Flask, render_template, request, make_response, json, send_file, Response, redirect, url_for, g
-from PIL import Image, ImageOps, ImageDraw
+from PIL import Image, ImageOps, ImageDraw, ImageFont
 from io import BytesIO
 from math import ceil
 from werkzeug.utils import secure_filename
@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 MAX_WIDTH = 1600
 UPDIR = join('.', 'coverMaker', 'static', 'uploads')
+FONTPATH = join('.', 'coverMaker', 'static', 'fonts', 'oswald.ttf')
 
 def create_app(test_config=None):
     # create and configure the app
@@ -117,6 +118,28 @@ def create_app(test_config=None):
             draw = ImageDraw.Draw(im, 'RGBA')
             # [x0, y0, x1, y1]
             draw.rectangle([0, recStart, w, recEnd], color, color)
+
+            # Calculate the size of the font to use to fit inside banner
+            fontsize = 1
+            textWidth = 0.8 * w
+            print(os.getcwd())
+            print(FONTPATH)
+            font = ImageFont.truetype(FONTPATH, fontsize)
+            while font.getsize(title)[0] < textWidth:
+                # iterate until the text size is just larger than the criteria
+                fontsize += 1
+                font = ImageFont.truetype("arial.ttf", fontsize)
+
+            # Center the text anchor on the banner
+            textHorCenter = w / 2
+            textVerCenter = (recStart + recEnd) / 2
+            draw.text(
+                (textHorCenter, textVerCenter),
+                title,
+                font=font,
+                fill='white',
+                anchor='mm'
+            )
             im.save(join(UPDIR, 'edited-' + original))
 
         return make_custom_response(200, 'success', 'Ok')
