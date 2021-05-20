@@ -77,6 +77,6 @@ function checkImageName() {
     // <imageName> is not empty. Give it a
     // name if it is.
     if (imageName === '') {
-        imageName = 'Portada.jpg';
+        imageName = baseName(imgInput.value);
     }
 }

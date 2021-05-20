@@ -1,7 +1,7 @@
 import os, tempfile
 from os.path import splitext, join
 from flask import Flask, render_template, request, make_response, json, send_file, Response, redirect, url_for, g
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageDraw
 from io import BytesIO
 from math import ceil
 from werkzeug.utils import secure_filename
@@ -101,11 +101,23 @@ def create_app(test_config=None):
         Use it to create the real image, and send it to be downloaded.
         """
         form = request.form
-        pos = form['position']
+        pos = float(form['position'])
         color = form['color']
         title = form['title']
         original = form['imageName']
 
+        # Open the cropped image, saved on .../uploads/
+        with Image.open(join(UPDIR, 'cropped' + original)) as im:
+            w, h = im.size
+            # Dimensions of the banner. pos is the percentage of the
+            # image height, where the banner starts.
+            # The banner has a height of one sixth of the image
+            recStart = h * pos
+            recEnd = recStart + h / 6
+            draw = ImageDraw.Draw(im, 'RGBA')
+            # [x0, y0, x1, y1]
+            draw.rectangle([0, recStart, w, recEnd], color, color)
+            im.save(join(UPDIR, 'edited-' + original))
 
         return make_custom_response(200, 'success', 'Ok')
 
