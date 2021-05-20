@@ -31,9 +31,16 @@ function makeImage() {
     titleInput.type = 'text';
     titleInput.value = title;
 
+    const imgName = document.createElement('input');
+    imgName.name = 'imageName';
+    imgName.type = 'text';
+    checkImageName();
+    imgName.value = imageName;
+
     form.appendChild(posInput);
     form.appendChild(colorInput);
     form.appendChild(titleInput);
+    form.appendChild(imgName);
 
     asyncMakeImage(form);
 }
@@ -63,4 +70,13 @@ function getBannerColor() {
 function getTitle() {
     const titleInput = document.getElementById('title');
     return titleInput.innerText;
+}
+
+function checkImageName() {
+    // Confirm that the global variable
+    // <imageName> is not empty. Give it a
+    // name if it is.
+    if (imageName === '') {
+        imageName = 'Portada.jpg';
+    }
 }
