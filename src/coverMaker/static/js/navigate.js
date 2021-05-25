@@ -88,14 +88,12 @@ function loadBannerMenu() {
     // Loads the next menu, adds the banner, and replaces
     // the arrows to change the position of the banner.
     clearArrowsListeners();
-    clearNextBtnListener();
 
     uparrow.addEventListener('mousedown', lowerBanner);
     uparrow.addEventListener('mouseup', () => {mouseIsDown = false;});
     downarrow.addEventListener('mousedown', raiseBanner);
     downarrow.addEventListener('mouseup', () => {mouseIsDown = false;});
 
-    nextBtn.addEventListener('click', makeImage);
 
     let inputsDiv = document.createElement('div');
     inputsDiv.classList.add('flex', 'flex-col', 'justify-center', 'items-start', 'mb-6', 'pl-10');
@@ -155,6 +153,7 @@ function loadBannerMenu() {
     imgPrev.after(inputsDiv);
 
     addBanner();
+    addDownloadForm();
 }
 
 function addBanner() {
@@ -201,4 +200,14 @@ function cloneElement(el) {
     var new_element = el.cloneNode(true);
     el.parentNode.replaceChild(new_element, el);
     return new_element;
+}
+
+
+function addDownloadForm() {
+    // Delete all event listeners in the button used
+    // to advance to next step
+    form = makeImageForm();
+
+    nextBtn.parentNode.appendChild(form);
+    remove(nextBtn);
 }

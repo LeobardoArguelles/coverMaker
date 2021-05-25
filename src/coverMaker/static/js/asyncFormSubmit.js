@@ -10,6 +10,7 @@ function asyncSubmit(e) {
   // Store reference to form to make later code easier to read
   const form = e.target;
 
+  console.log('aaaaaa');
   // Post data using the Fetch API
   fetch(form.action, {
     method: form.method,
@@ -104,21 +105,10 @@ function asyncSendImage(form) {
 
 function asyncMakeImage(form) {
 
+  console.log('makeing');
   // Post data using the Fetch API
   fetch(form.action, {
     method: form.method,
     body: new FormData(form),
-  })
-  .then(response => response.json())
-    .then((data) => {
-    if (data['kind'] === 'success') {
-      flashSuccess(data['message']);
-    }
-    else if (data['kind'] === 'error') {
-      flashError(data['message']);
-    }
-    else {
-      flashError('Ha ocurrido un error. Intenta de nuevo.');
-    }
   });
 }

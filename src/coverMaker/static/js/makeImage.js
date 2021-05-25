@@ -1,5 +1,5 @@
 
-function makeImage() {
+function makeImageForm() {
     // Get the image data to create send it to
     // the server and create it there. Then receive
     // the finished image and prompt its
@@ -15,34 +15,48 @@ function makeImage() {
     const form = document.createElement('form');
     form.action = makeImageRoute;
     form.method = 'POST';
+    form.name = 'downForm';
+    form.id = 'downForm';
 
     const posInput = document.createElement('input');
     posInput.name = 'position';
     posInput.type = 'number';
     posInput.value = pos;
+    posInput.classList.add('hidden');
 
     const colorInput = document.createElement('input');
     colorInput.name = 'color';
     colorInput.type = 'text';
     colorInput.value = color;
+    colorInput.classList.add('hidden');
 
     const titleInput = document.createElement('input');
     titleInput.name = 'title';
     titleInput.type = 'text';
     titleInput.value = title;
+    titleInput.classList.add('hidden');
 
     const imgName = document.createElement('input');
     imgName.name = 'imageName';
     imgName.type = 'text';
     checkImageName();
     imgName.value = imageName;
+    imgName.classList.add('hidden');
+
+    const submitBtn = document.createElement('button');
+    submitBtn.type = 'submit';
+    submitBtn.classList.add('btn-green', 'cursor-pointer');
+    submitBtn.innerText = 'Descargar';
 
     form.appendChild(posInput);
     form.appendChild(colorInput);
     form.appendChild(titleInput);
     form.appendChild(imgName);
+    form.appendChild(submitBtn);
 
-    asyncMakeImage(form);
+    form.addEventListener('submit', function() {asyncMakeImage(this)});
+
+    return form;
 }
 
 function getBannerPosition() {

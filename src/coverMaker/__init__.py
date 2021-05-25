@@ -1,6 +1,6 @@
 import os, tempfile
 from os.path import splitext, join
-from flask import Flask, render_template, request, make_response, json, send_file, Response, redirect, url_for, g
+from flask import Flask, render_template, request, make_response, json, send_from_directory, current_app, send_file, g, url_for
 from PIL import Image, ImageOps, ImageDraw, ImageFont
 from io import BytesIO
 from math import ceil
@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 MAX_WIDTH = 1600
 UPDIR = join('.', 'coverMaker', 'static', 'uploads')
+SENDDIR = join('static', 'uploads')
 FONTPATH = join('.', 'coverMaker', 'static', 'fonts', 'oswald.ttf')
 
 def create_app(test_config=None):
@@ -106,6 +107,7 @@ def create_app(test_config=None):
         color = form['color']
         title = form['title']
         original = form['imageName']
+        print(form)
 
         # Open the cropped image, saved on .../uploads/
         with Image.open(join(UPDIR, 'cropped' + original)) as im:
@@ -159,10 +161,15 @@ def create_app(test_config=None):
                 anchor='mm'
             )
 
+            fileName = 'edited-' + original
+            editPath = join(UPDIR, fileName)
+            sendPath = join(SENDDIR, fileName)
+            im.save(editPath)
 
-            im.save(join(UPDIR, 'edited-' + original))
+        print(sendPath)
+        print(os.getcwd())
+        return send_from_directory(SENDDIR, filename=fileName, as_attachment=True)
 
-        return make_custom_response(200, 'success', 'Ok')
 
     return app
 
