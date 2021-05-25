@@ -122,17 +122,35 @@ def create_app(test_config=None):
             # Calculate the size of the font to use to fit inside banner
             fontsize = 1
             textWidth = 0.8 * w
-            print(os.getcwd())
-            print(FONTPATH)
+            textHeight = (recEnd - recStart) * 0.8
+
             font = ImageFont.truetype(FONTPATH, fontsize)
-            while font.getsize(title)[0] < textWidth:
+            fontSize = font.getsize(title)
+            fontW = fontSize[0]
+            fontH = fontSize[1]
+            while fontW < textWidth and fontH < textHeight:
                 # iterate until the text size is just larger than the criteria
                 fontsize += 1
-                font = ImageFont.truetype("arial.ttf", fontsize)
+                font = ImageFont.truetype(FONTPATH, fontsize)
+                fontSize = font.getsize(title)
+                fontW = fontSize[0]
+                fontH = fontSize[1]
 
             # Center the text anchor on the banner
             textHorCenter = w / 2
             textVerCenter = (recStart + recEnd) / 2
+
+            # Shadow first to cover it with text
+            offset = 5
+            draw.text(
+                (textHorCenter + offset, textVerCenter + offset),
+                title,
+                font=font,
+                fill='black',
+                anchor='mm'
+            )
+
+            # Text
             draw.text(
                 (textHorCenter, textVerCenter),
                 title,
@@ -140,6 +158,8 @@ def create_app(test_config=None):
                 fill='white',
                 anchor='mm'
             )
+
+
             im.save(join(UPDIR, 'edited-' + original))
 
         return make_custom_response(200, 'success', 'Ok')
