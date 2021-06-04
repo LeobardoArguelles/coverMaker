@@ -56,6 +56,7 @@ function makeImageForm() {
 
     form.addEventListener('submit', function() {
         // Add values right before submiting
+        console.log('Submiting');
         titleInput.value = getTitle();
         posInput.value = getBannerPosition();
         colorInput.value = getBannerColor();
