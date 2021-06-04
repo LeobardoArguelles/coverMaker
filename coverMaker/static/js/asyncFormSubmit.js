@@ -110,5 +110,17 @@ function asyncMakeImage(form) {
   fetch(form.action, {
     method: form.method,
     body: new FormData(form),
+  })
+  .then(response => response.json())
+    .then((data) => {
+    if (data['kind'] === 'success') {
+      flashSuccess(data['message']);
+    }
+    else if (data['kind'] === 'error') {
+      flashError(data['message']);
+    }
+    else {
+      flashError('Ha ocurrido un error. Intenta de nuevo.');
+    }
   });
 }

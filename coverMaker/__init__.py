@@ -102,15 +102,24 @@ def create_app(test_config=None):
             - Title
         Use it to create the real image, and send it to be downloaded.
         """
+        # print('Making image in backend...')
         form = request.form
         pos = float(form['position'])
         color = form['color']
         title = form['title']
         original = form['imageName']
-        print(form)
 
+        if not pos:
+            return make_custom_response(420, 'error', 'No se recibió la posición')
+        elif not color:
+            return make_custom_response(420, 'error', 'No se recibió el color del banner')
+        elif not title:
+            return make_custom_response(420, 'error', 'No se recibió el título')
+
+        # print('Form received')
         # Open the cropped image, saved on .../uploads/
         with Image.open(join(UPDIR, 'cropped' + original)) as im:
+            # print('Image opened')
             w, h = im.size
             # Dimensions of the banner. pos is the percentage of the
             # image height, where the banner starts.
@@ -131,10 +140,18 @@ def create_app(test_config=None):
             fontW = fontSize[0]
             fontH = fontSize[1]
             while fontW < textWidth and fontH < textHeight:
+                # print('Rezising font')
+                # print(f"Fontsize: {fontsize}")
+                # print(f"fontW: {fontW}, textWidth: {textWidth}")
+                # print(f"fontH: {fontH}, textHeight: {textHeight}")
+
                 # iterate until the text size is just larger than the criteria
                 fontsize += 1
                 font = ImageFont.truetype(FONTPATH, fontsize)
+                # print(f"Font: {font}")
+                # print(f"Title: {title}")
                 fontSize = font.getsize(title)
+                # print(f"fontSize: {fontSize}")
                 fontW = fontSize[0]
                 fontH = fontSize[1]
 
@@ -166,10 +183,10 @@ def create_app(test_config=None):
             sendPath = join(SENDDIR, fileName)
             im.save(editPath)
 
-        print(sendPath)
-        print(os.getcwd())
-        return send_from_directory(SENDDIR, filename=fileName, as_attachment=True)
-
+        # print('Sending...')
+        return send_file(sendPath,
+                         attachment_filename='Portada.jpg',
+                         as_attachment=True)
 
     return app
 

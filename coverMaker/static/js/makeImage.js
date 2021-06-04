@@ -7,9 +7,8 @@ function makeImageForm() {
 
     // Get all necessary data.
 
-    const pos = getBannerPosition();
-    const color = getBannerColor();
-    const title = getTitle();
+
+
 
     // Create form to send the data
     const form = document.createElement('form');
@@ -20,20 +19,21 @@ function makeImageForm() {
 
     const posInput = document.createElement('input');
     posInput.name = 'position';
-    posInput.type = 'number';
-    posInput.value = pos;
+    posInput.type = 'text';
+    posInput.value = '';
     posInput.classList.add('hidden');
 
     const colorInput = document.createElement('input');
     colorInput.name = 'color';
     colorInput.type = 'text';
-    colorInput.value = color;
+    colorInput.value = '';
     colorInput.classList.add('hidden');
 
     const titleInput = document.createElement('input');
     titleInput.name = 'title';
+    titleInput.id = 'title-input';
     titleInput.type = 'text';
-    titleInput.value = title;
+    titleInput.value = '';
     titleInput.classList.add('hidden');
 
     const imgName = document.createElement('input');
@@ -44,8 +44,8 @@ function makeImageForm() {
     imgName.classList.add('hidden');
 
     const submitBtn = document.createElement('button');
-    submitBtn.type = 'submit';
     submitBtn.classList.add('btn-green', 'cursor-pointer');
+    submitBtn.type = 'submit';
     submitBtn.innerText = 'Descargar';
 
     form.appendChild(posInput);
@@ -54,7 +54,13 @@ function makeImageForm() {
     form.appendChild(imgName);
     form.appendChild(submitBtn);
 
-    form.addEventListener('submit', function() {asyncMakeImage(this)});
+    form.addEventListener('submit', function() {
+        // Add values right before submiting
+        titleInput.value = getTitle();
+        posInput.value = getBannerPosition();
+        colorInput.value = getBannerColor();
+        asyncMakeImage(this);
+    });
 
     return form;
 }
