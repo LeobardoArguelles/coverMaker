@@ -1,1 +1,1 @@
-web: gunicorn "src/coverMaker:create_app()"
+web: gunicorn "app:create_app()"
