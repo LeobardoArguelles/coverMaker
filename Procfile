@@ -1,1 +1,1 @@
-web:gunicorn "coverMaker:create_app()"
+web: gunicorn "coverMaker:create_app()"
